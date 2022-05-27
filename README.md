@@ -59,7 +59,7 @@ npm install instagram-private-api
 From github
 
 ```
-npm install github:dilame/instagram-private-api
+npm install github:sreza78/instagram-private-api
 ```
 
 This package uses [`url-regex-safe`](https://www.npmjs.com/package/url-regex-safe) ([GitHub](https://github.com/spamscanner/url-regex-safe)) to check for links when sending direct messages.
@@ -190,7 +190,6 @@ Setting up your environment is described [here](CONTRIBUTING.md).
 [instagram-id-to-url-segment](https://www.npmjs.com/package/instagram-id-to-url-segment) - convert the image url fragment to the media ID
 
 [instagram_mqtt](https://www.npmjs.com/package/instagram_mqtt) - use to handle realtime events
-
 
 ## Special thanks
 

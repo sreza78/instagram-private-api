@@ -1,7 +1,7 @@
 {
   "name": "instagram-private-api",
   "description": "Instagram private API wrapper for full access to instagram",
-  "version": "1.45.3",
+  "version": "1.45.5",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -12,14 +12,13 @@
     "node": ">=8.0.0"
   },
   "bugs": {
-    "url": "https://github.com/dilame/instagram-private-api/issues",
-    "email": "dilame.nickolson@gmail.com"
+    "url": "https://github.com/sreza78/instagram-private-api/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dilame/instagram-private-api.git"
+    "url": "https://github.com/sreza78/instagram-private-api.git"
   },
-  "homepage": "https://github.com/dilame/instagram-private-api",
+  "homepage": "https://github.com/sreza78/instagram-private-api",
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -36,13 +35,13 @@
     }
   },
   "dependencies": {
-    "@lifeomic/attempt": "^3.0.0",
+    "@lifeomic/attempt": "^3.0.3",
     "@types/chance": "^1.0.2",
     "@types/request-promise": "^4.1.43",
-    "bluebird": "^3.7.1",
+    "bluebird": "^3.7.2",
     "chance": "^1.0.18",
     "class-transformer": "^0.3.1",
-    "debug": "^4.1.1",
+    "debug": "^4.3.4",
     "image-size": "^0.7.3",
     "json-bigint": "^1.0.0",
     "lodash": "^4.17.20",
@@ -68,7 +67,7 @@
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.26",
-    "@types/lodash": "^4.14.123",
+    "@types/lodash": "^4.14.182",
     "@types/luxon": "^1.12.0",
     "@types/node": "^10.14.5",
     "@types/tough-cookie": "^2.3.5",
@@ -81,8 +80,8 @@
     "rimraf": "^2.6.3",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
-    "typedoc": "^0.22.11",
-    "typedoc-plugin-markdown": "^3.11.14",
-    "typescript": "^4.3.5"
+    "typedoc": "^0.22.15",
+    "typedoc-plugin-markdown": "^3.12.1",
+    "typescript": "^4.7.2"
   }
 }
