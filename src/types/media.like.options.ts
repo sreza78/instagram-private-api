@@ -33,6 +33,10 @@ interface PhotoViewProfile extends BaseProfile {
   module_name: 'photo_view_profile';
 }
 
+interface ReelProfile {
+  module_name: 'reel_profile';
+}
+
 export type LikeModuleInfoOption = (
   | FeedTimeline
   | FeedContextualHashtag
@@ -41,6 +45,7 @@ export type LikeModuleInfoOption = (
   | MediaViewProfile
   | VideoViewProfile
   | PhotoViewProfile
+  | ReelProfile
 ) & { [x: string]: any };
 
 type LikeOrUnlikeBaseOptions = {
@@ -60,4 +65,8 @@ export type MediaLikeOrUnlikeOptions = LikeOrUnlikeBaseOptions & {
   action: 'like' | 'unlike';
   // d - means double-tap. If you liked post by double tap then d=1. You cant unlike post by double tap
   d?: 1 | 0;
+};
+
+export type StoryLikeOrUnlikeOptions = LikeOrUnlikeBaseOptions & {
+  action: 'send' | 'unsend';
 };

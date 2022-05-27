@@ -14,6 +14,7 @@ import {
   IgAppModule,
   LikeRequestOptions,
   MediaLikeOrUnlikeOptions,
+  StoryLikeOrUnlikeOptions,
   UnlikeRequestOptions,
   MediaConfigureOptions,
   MediaConfigureStoryBaseOptions,
@@ -93,7 +94,7 @@ export class MediaRepository extends Repository {
     return body;
   }
 
-  private async likeAction(options: MediaLikeOrUnlikeOptions) {
+  private async postLikeAction(options: MediaLikeOrUnlikeOptions) {
     const signedFormData = this.client.request.sign({
       module_name: options.moduleInfo.module_name,
       media_id: options.mediaId,
@@ -116,15 +117,35 @@ export class MediaRepository extends Repository {
     return body;
   }
 
+  public async storyInteractions(options: StoryLikeOrUnlikeOptions) {
+    const signedFormData = this.client.request.sign({
+      media_id: options.mediaId,
+      tray_session_id: new Chance().guid(),
+      _uid: this.client.state.cookieUserId,
+      _uuid: this.client.state.uuid,
+      viewer_session_id: new Chance().guid,
+      container_module: options.moduleInfo.module_name,
+    });
+
+    const { body } = await this.client.request.send({
+      url: `/api/v1/story_interactions/${options.action}_story_like/`,
+      method: 'POST',
+      form: {
+        ...signedFormData,
+      },
+    });
+    return body;
+  }
+
   public async like(options: LikeRequestOptions) {
-    return this.likeAction({
+    return this.postLikeAction({
       action: 'like',
       ...options,
     });
   }
 
   public async unlike(options: UnlikeRequestOptions) {
-    return this.likeAction({
+    return this.postLikeAction({
       action: 'unlike',
       ...options,
     });
