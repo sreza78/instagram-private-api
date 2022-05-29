@@ -12,15 +12,6 @@ import { IgCookieNotFoundError, IgNoCheckpointError, IgUserIdNotFoundError } fro
 import { Enumerable } from '../decorators';
 import debug from 'debug';
 
-const AUTHORIZATION_TAG: unique symbol = Symbol('authorization-tag');
-
-interface ParsedAuthorization {
-  ds_user_id: string;
-  sessionid: string;
-  should_use_header_over_cookie: string;
-  [AUTHORIZATION_TAG]: string;
-}
-
 export class State {
   private static stateDebug = debug('ig:state');
   get signatureKey(): string {
@@ -73,7 +64,7 @@ export class State {
   language: string = 'en_US';
   timezoneOffset: string = String(new Date().getTimezoneOffset() * -60);
   radioType = 'wifi-none';
-  capabilitiesHeader = '3brTv10=';
+  capabilitiesHeader = '3brTvwE=';
   connectionTypeHeader = 'WIFI';
   isLayoutRTL: boolean = false;
   euDCEnabled?: boolean = undefined;
@@ -110,8 +101,6 @@ export class State {
   clientSessionIdLifetime: number = 1200000;
   pigeonSessionIdLifetime: number = 1200000;
 
-  @Enumerable(false)
-  parsedAuthorization?: ParsedAuthorization;
   /**
    * The current application session ID.
    *
@@ -177,16 +166,7 @@ export class State {
   }
 
   public get cookieUserId() {
-    const cookie = this.extractCookie('ds_user_id');
-    if (cookie !== null) {
-      return cookie.value;
-    }
-    this.updateAuthorization();
-    if (!this.parsedAuthorization) {
-      State.stateDebug('Could not find ds_user_id');
-      throw new IgCookieNotFoundError('ds_user_id');
-    }
-    return this.parsedAuthorization.ds_user_id;
+    return this.extractCookieValue('ds_user_id');
   }
 
   public get cookieUsername() {
@@ -278,27 +258,5 @@ export class State {
 
   private generateTemporaryGuid(seed: string, lifetime: number) {
     return new Chance(`${seed}${this.deviceId}${Math.round(Date.now() / lifetime)}`).guid();
-  }
-
-  private hasValidAuthorization() {
-    return this.parsedAuthorization && this.parsedAuthorization[AUTHORIZATION_TAG] === this.authorization;
-  }
-
-  private updateAuthorization() {
-    if (!this.hasValidAuthorization()) {
-      if (this.authorization?.startsWith('Bearer IGT:2:')) {
-        try {
-          this.parsedAuthorization = {
-            ...JSON.parse(Buffer.from(this.authorization.substring('Bearer IGT:2:'.length), 'base64').toString()),
-            [AUTHORIZATION_TAG]: this.authorization,
-          };
-        } catch (e) {
-          State.stateDebug(`Could not parse authorization: ${e}`);
-          this.parsedAuthorization = undefined;
-        }
-      } else {
-        this.parsedAuthorization = undefined;
-      }
-    }
   }
 }
